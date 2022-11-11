@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav justify-content-center">
                     <li class="nav-item h4 px-3">
-                        <a class="nav-link" href="index.html">Products</a>
+                        <a class="nav-link" href="index.html">Cadastro de Veículos</a>
                     </li>
                     <li class="nav-item h4 px-3">
                         <a class="nav-link active" aria-current="page" href="listAll.html">Lista de Veículos</a>
@@ -65,26 +65,6 @@
 </body>
 
 <script>
-    const searchInput = document.getElementById("search");
-    getData()
-    searchInput.addEventListener("keyup", function () {
-        var keyword = this.value;
-        keyword = keyword.toUpperCase();
-        var table = document.getElementById('myTable')
-        var all_tr = table.getElementsByTagName("tr");
-        for (var i = 0; i < all_tr.length; i++) {
-            var date_column = all_tr[i].getElementsByTagName("td")[6];
-            if (date_column) {
-                var name_value = date_column.textContent || date_column.innerText;
-                name_value = name_value.toUpperCase();
-                if (name_value.indexOf(keyword) > -1) {
-                    all_tr[i].style.display = ""; // show
-                } else {
-                    all_tr[i].style.display = "none"; // hide
-                }
-            }
-        }
-    });
     async function getData() {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Basic dGVzdGU6NDMyMQ==");
@@ -119,6 +99,8 @@
             table.innerHTML += row
         }
     }
+
+    getData()
 </script>
 
 </html>

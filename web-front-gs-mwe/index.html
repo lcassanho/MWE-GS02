@@ -31,7 +31,7 @@
     </nav>
 
 
-    <div onsubmit="createProduct(event)" class="container-md mt-5">
+    <div onsubmit="createVeiculos(event)" class="container-md mt-5">
         <h1>Hello, world!</h1>
         <h5>Aqui é onde cadastramos os veiculos e seus respectivos ambientes.</h5>
         <form class="p-4">
@@ -95,7 +95,7 @@
 </body>
 
 <script>
-    async function createProduct(e) {
+    async function createVeiculos(e) {
         e.preventDefault();
         let marca = document.getElementById("marca").value
         let modelo = document.getElementById("modelo").value
@@ -137,9 +137,16 @@
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
 
-        // await getData();
+        document.getElementById("marca").value = ''
+        document.getElementById("modelo").value = ''
+        document.getElementById("placa").value = ''
+        document.getElementById("quilometragem").value = ''
+        document.getElementById("bairro").value = ''
+        document.getElementById("cidade").value = ''
+        document.getElementById("estado").value = ''
+        document.getElementById("temperatura").value = ''
+        document.getElementById("qualidadeAr").value = ''
     }
-   // getData()
 </script>
 
 </html>
