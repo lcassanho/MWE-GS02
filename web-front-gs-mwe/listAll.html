@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>MWE</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav justify-content-center">
+                    <li class="nav-item h4 px-3">
+                        <a class="nav-link" href="index.html">Products</a>
+                    </li>
+                    <li class="nav-item h4 px-3">
+                        <a class="nav-link active" aria-current="page" href="listAll.html">Lista de Veículos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-md mt-5">
+        <div class="mb-3">
+            <h1>Hello, world!</h1>
+            <h5>Aqui é onde listamos de todos os veículos e seus respectivos ambientes.</h5>
+        </div>
+        <table class="table table-bordered border-dark mt-5">
+            <thead style="white-space: nowrap;" class="table-dark">
+                <tr style="text-align: center;">
+                    <th scope="col">#</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Km's</th>
+                    <th scope="col">ID Ambiente</th>
+                    <th scope="col">Bairro</th>
+                    <th scope="col">Cidade</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Temperatura</th>
+                    <th scope="col">Qualidade do Ar</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+
+
+
+</body>
+
+<script>
+    const searchInput = document.getElementById("search");
+    getData()
+    searchInput.addEventListener("keyup", function () {
+        var keyword = this.value;
+        keyword = keyword.toUpperCase();
+        var table = document.getElementById('myTable')
+        var all_tr = table.getElementsByTagName("tr");
+        for (var i = 0; i < all_tr.length; i++) {
+            var date_column = all_tr[i].getElementsByTagName("td")[6];
+            if (date_column) {
+                var name_value = date_column.textContent || date_column.innerText;
+                name_value = name_value.toUpperCase();
+                if (name_value.indexOf(keyword) > -1) {
+                    all_tr[i].style.display = ""; // show
+                } else {
+                    all_tr[i].style.display = "none"; // hide
+                }
+            }
+        }
+    });
+    async function getData() {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic dGVzdGU6NDMyMQ==");
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        const response = await fetch("http://localhost:8080/api/veiculo", requestOptions);
+        const jsonData = await response.json();
+        buildTable(jsonData)
+    };
+
+    function buildTable(data) {
+        var table = document.getElementById('myTable')
+
+        for (var i = 0; i < data.length; i++) {
+            var row = `<tr style="text-align: center;">
+							<td>${data[i].id}</td>
+							<td>${data[i].marca}</td>
+							<td>${data[i].modelo}</td>
+							<td>${data[i].placa}</td>
+							<td>${data[i].quilometragem}</td>
+                            <td>${data[i].ambiente.id}</td>
+							<td>${data[i].ambiente.bairro}</td>
+							<td>${data[i].ambiente.cidade}</td>
+							<td>${data[i].ambiente.estado}</td>
+							<td>${data[i].ambiente.temperatura}</td>
+							<td>${data[i].ambiente.qualidadeAr}</td>
+					  </tr>`
+            table.innerHTML += row
+        }
+    }
+</script>
+
+</html>
